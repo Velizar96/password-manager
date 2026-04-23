@@ -10,7 +10,7 @@ import os
 
 def resource_path(relative_path):
     try:
-        base_path = sys._MEIPASS  # PyInstaller temp folder
+        base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
@@ -22,7 +22,6 @@ def get_data_path():
         # .exe
         base_path = os.path.dirname(sys.executable)
     else:
-        # PyCharm / script
         base_path = os.path.dirname(os.path.abspath(__file__))
 
     return os.path.join(base_path, "data.json")
@@ -30,12 +29,9 @@ def get_data_path():
 
 def get_settings_path():
     if getattr(sys, 'frozen', False):
-        # .exe
         base_path = os.path.dirname(sys.executable)
     else:
-        # PyCharm / script
         base_path = os.path.dirname(os.path.abspath(__file__))
-
     return os.path.join(base_path, "settings.json")
 
 
@@ -121,7 +117,6 @@ def load_theme():
     try:
         with open(get_settings_path(), "r") as file:
             data = json.load(file)
-            # data.update(switch_data)
             return data.get("theme", "dark")
     except FileNotFoundError:
         return "dark"
@@ -219,7 +214,6 @@ set_appearance_mode("dark")
 
 # Canvas
 canvas = Canvas(width=200, height=200, bg="#0F172A", highlightthickness=0)
-# logo_img = PhotoImage(file="logo.png")
 logo_img = PhotoImage(file=resource_path("logo.png"))
 canvas.create_image(100, 100, image=logo_img)
 canvas.grid(column=1, row=0, padx=10, pady=10)
